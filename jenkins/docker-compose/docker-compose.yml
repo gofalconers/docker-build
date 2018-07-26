@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  jenkins-master:
+    image: dhub.juxinli.com/ci/jenkins
+    ports:
+      - 48080:8080
+      - 65000:50000
+    volumes:
+      - ./jenkins:/root/.jenkins
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
