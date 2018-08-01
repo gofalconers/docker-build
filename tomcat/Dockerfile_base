@@ -1,0 +1,23 @@
+FROM centos:6.9
+MAINTAINER panzhengming
+
+COPY server-jre-8u112-linux-x64.tar.gz /
+RUN tar -zxf /server-jre-8u112-linux-x64.tar.gz -C /opt && \
+    rm -rf /server-jre-8u112-linux-x64.tar.gz
+
+ENV JAVA_HOME="/opt/jdk1.8.0_112" 
+ENV CLASSPATH="$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar" 
+ENV CATALINA_HOME="/opt/cashloan"
+ENV PATH="${CATALINA_HOME}/bin:$JAVA_HOME/bin:$PATH"
+RUN yum install wget -y > /dev/null && \
+    # wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo && \
+    # yum makecache && \
+    wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.tar.gz -O /tmp/apache-tomcat-9.0.10.tar.gz > /dev/null && \
+    tar -zxf /tmp/apache-tomcat-9.0.10.tar.gz -C /opt && mv /opt/apache-tomcat-9.0.10 /opt/cashloan && \
+    rm -rf /tmp/apache-tomcat-9.0.10.tar.gz
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=15s --timeout=2s --retries=12 CMD curl --silent --fail http://localhost:8080 || exit 1
+
+CMD [ "catalina.sh", "run" ]
