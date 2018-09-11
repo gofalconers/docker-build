@@ -1,0 +1,1 @@
+对于MQ的docker镜像可以在https://github.com/apache/rocketmq-externals仓库中找到构建脚本来完成。

@@ -1,0 +1,25 @@
+FROM 172.17.16.118/ci/jdk:1.8.0
+
+# Rocketmq version
+ENV ROCKETMQ_VERSION 4.0.0-incubating
+
+# Rocketmq home
+ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
+
+WORKDIR  ${ROCKETMQ_HOME}
+
+RUN mkdir -p /opt/logs && mkdir -p /opt/store
+
+COPY rocketmq.zip rocketmq.zip
+RUN yum install unzip -y
+RUN unzip rocketmq.zip && mv apache-rocketmq-all/* . && rmdir apache-rocketmq-all && rm rocketmq.zip
+
+
+RUN chmod +x bin/mqnamesrv
+
+CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT=" -Duser.home=/opt" && sh mqnamesrv
+
+
+EXPOSE 9876
+VOLUME /opt/logs
+VOLUME /opt/store

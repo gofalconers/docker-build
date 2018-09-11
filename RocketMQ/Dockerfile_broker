@@ -1,0 +1,31 @@
+FROM 172.17.16.118/ci/jdk:1.8.0
+
+# Rocketmq version
+ENV ROCKETMQ_VERSION 4.0.0-incubating
+
+# Rocketmq home
+ENV ROCKETMQ_HOME  /opt/rocketmq-${ROCKETMQ_VERSION}
+
+WORKDIR  ${ROCKETMQ_HOME}
+
+RUN mkdir -p /opt/logs && mkdir -p /opt/store
+
+COPY rocketmq.zip rocketmq.zip
+RUN yum install unzip -y
+RUN unzip rocketmq.zip && mv apache-rocketmq-all/* . && rmdir apache-rocketmq-all && rm rocketmq.zip
+
+RUN chmod +x bin/mqbroker
+
+EXPOSE 10909 10911
+VOLUME /opt/logs /opt/store
+
+# 修改默认的4G分配内存，规避启动失败，改成256m
+
+# runbroker.sh
+RUN sed -i '/4g/d' ${ROCKETMQ_HOME}/bin/runbroker.sh && \ 
+    echo JAVA_OPT="${JAVA_OPT} -server -Xms1g -Xmx1g -Xmn514m" >> ${ROCKETMQ_HOME}/bin/runbroker.sh
+# runserver.sh
+RUN sed -i '/4g/d' ${ROCKETMQ_HOME}/bin/runserver.sh && \ 
+    echo JAVA_OPT="${JAVA_OPT} -server -Xms512g -Xmx512g -Xmn256m" >> ${ROCKETMQ_HOME}/bin/runserver.sh
+
+CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT=" -Duser.home=/opt" && sh mqbroker
