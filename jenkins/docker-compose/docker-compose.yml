@@ -2,7 +2,7 @@ version: '2'
 
 services:
   jenkins-master:
-    image: dhub.juxinli.com/ci/jenkins
+    image: 172.17.16.118/ci/jenkins
     ports:
       - 48080:8080
       - 65000:50000

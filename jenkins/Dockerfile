@@ -1,5 +1,5 @@
 FROM openjdk:8u121-jdk-alpine
-MAINTAINER panzhengming@juxinli.com
+MAINTAINER panzhengming@2345.com
 RUN mkdir /opt/app -p 
 WORKDIR /opt/app
 RUN wget http://mirrors.shu.edu.cn/jenkins/war-stable/2.121.1/jenkins.war -O jenkins.war
