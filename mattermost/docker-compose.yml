@@ -1,0 +1,9 @@
+version: "2"
+services:
+  chat:
+    image: mattermost/mattermost-preview
+    restart: always
+    ports:
+      - "8065:8065"
+    volumes:
+      - ./data:/mm/mattermost-data

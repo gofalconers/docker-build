@@ -1,0 +1,1 @@
+关于confluence的安装参考http://blog.51cto.com/m51cto/2131964

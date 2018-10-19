@@ -1,0 +1,1 @@
+在docker-compose命令中添加extra_hosts参数来动态添加hosts文件内容，具体详解查看https://docs.docker.com/compose/compose-file/#extra_hosts

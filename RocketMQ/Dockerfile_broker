@@ -26,6 +26,6 @@ RUN sed -i '/4g/d' ${ROCKETMQ_HOME}/bin/runbroker.sh && \
     echo JAVA_OPT="${JAVA_OPT} -server -Xms1g -Xmx1g -Xmn514m" >> ${ROCKETMQ_HOME}/bin/runbroker.sh
 # runserver.sh
 RUN sed -i '/4g/d' ${ROCKETMQ_HOME}/bin/runserver.sh && \ 
-    echo JAVA_OPT="${JAVA_OPT} -server -Xms512g -Xmx512g -Xmn256m" >> ${ROCKETMQ_HOME}/bin/runserver.sh
+    echo JAVA_OPT="${JAVA_OPT} -server -Xms512m -Xmx512m -Xmn256m" >> ${ROCKETMQ_HOME}/bin/runserver.sh
 
 CMD cd ${ROCKETMQ_HOME}/bin && export JAVA_OPT=" -Duser.home=/opt" && sh mqbroker
